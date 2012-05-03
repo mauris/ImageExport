@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("ImageExport")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Sam-Mauris Yong")]
 [assembly: AssemblyProduct("ImageExport")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyCopyright("Copyright © Sam-Mauris Yong 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

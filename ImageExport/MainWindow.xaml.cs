@@ -169,5 +169,20 @@ namespace ImageExport
                 project.ExportRules.Remove((ExportRule)lbxDisplay.SelectedItem);
             }
         }
+
+        private void mnuExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnAddExportRuleCancel_Click(object sender, RoutedEventArgs e)
+        {
+            pnlAddRule.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void mnuAbout_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("ImageExport\n\nCreated by Sam-Mauris Yong <mauris@hotmail.sg>\nCopyright (C) Sam-Mauris Yong 2012. All rights reserved.\n\n\nVisit us at http://github.com/thephpdeveloper/ImageExport");
+        }
     }
 }
