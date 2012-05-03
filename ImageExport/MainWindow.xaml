@@ -1,0 +1,80 @@
+﻿<Window x:Class="ImageExport.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ImageExport" Height="452" Width="618" Drop="Window_Drop" DragOver="Window_DragOver" DragLeave="Window_DragLeave" AllowDrop="True">
+    <Window.Resources>
+        <Style TargetType="TextBlock" x:Key="SectionTitle">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Padding" Value="5, 0, 5, 10" />
+         </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Text="Original Image" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource SectionTitle}"></TextBlock>
+            <TextBlock Text="File" Padding="5" Grid.Row="1" Grid.Column="0" />
+            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                <TextBox Name="txtOriginalFile" Margin="5" Width="330" TextChanged="txtOriginalFile_TextChanged"></TextBox>
+                <Button Name="btnBrowseOriginalFile" Width="80" Content="Browse..." Margin="5" Click="btnBrowseOriginalFile_Click"></Button>
+            </StackPanel>
+        </Grid>
+        <Grid Name="pnlAddRule" Visibility="Collapsed" Grid.Row="1" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Text="Add a new Export Rule" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource SectionTitle}"></TextBlock>
+            <TextBlock Text="Path" Padding="5" Grid.Row="1" Grid.Column="0" />
+            <TextBox Name="txtPath" Margin="5" Grid.Row="1" Grid.Column="1"></TextBox>
+            <TextBlock Text="Dimensions" Padding="5" Grid.Row="2" Grid.Column="0" />
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                <TextBox Name="txtDimensionX" Margin="5" Width="50"></TextBox>
+                <TextBlock Text="x" Margin="0,5,0,5" />
+                <TextBox Name="txtDimensionY" Margin="5" Width="50"></TextBox>
+                <TextBlock Text="pixels" Margin="0,5,0,5" />
+            </StackPanel>
+            <Button Name="btnAddExportRule" Grid.Row="3" Margin="5" Grid.Column="1" Content="Add Export Rule" Width="100" Padding="5" HorizontalAlignment="Left" Click="btnAddExportRule_Click"></Button>
+        </Grid>
+        <ListBox Name="lbxDisplay" Margin="5" ItemsSource="{Binding IsAsync=True}" Grid.Row="2" SelectionChanged="lbxDisplay_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <TextBlock Text="{Binding Path}" />
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                            <TextBlock Text="{Binding Path=Dimension.Width}" />
+                            <TextBlock Text="x" Margin="5,0,5,0"/>
+                            <TextBlock Text="{Binding Path=Dimension.Height}" />
+                            <TextBlock Text="pixels" Margin="5,0,5,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Orientation="Horizontal" Grid.Row="3">
+            <Button Name="btnPerformExport" Click="btnPerformExport_Click" Content="Perform Export" Padding="5" Margin="5,5,30,5" />
+            <Button Name="btnShowExportRuleForm" Click="btnShowExportRuleForm_Click" Content="Add Export Rule" Padding="5" Margin="5" />
+            <Button Name="btnExportRules" Click="btnExportRules_Click" Content="Export Rules" Padding="5" Margin="5" />
+            <Button Name="btnImportRules" Click="btnImportRules_Click" Content="Import Rules" Padding="5" Margin="5" />
+            <Button Name="btnRemoveSelectedRules" Click="btnRemoveSelectedRules_Click" Visibility="Collapsed" Content="Remove Selected" Padding="5" Margin="30,5,5,5" />
+        </StackPanel>
+    </Grid>
+</Window>

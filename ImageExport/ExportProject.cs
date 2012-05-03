@@ -1,0 +1,112 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+
+namespace ImageExport
+{
+    class ExportProject
+    {
+        const int VERSION = 1;
+
+        private string sOriginalFile = "";
+        public String OriginalFile
+        {
+            get { return sOriginalFile; }
+            set { sOriginalFile = value; }
+        }
+
+        private ObservableCollection<ExportRule> cExportRules = new ObservableCollection<ExportRule>();
+        public ObservableCollection<ExportRule> ExportRules {
+            get { 
+                return cExportRules;
+            } 
+        }
+
+        public void exportProject(string filename)
+        {
+            IEnumerable<ExportRule> obsCollection = (IEnumerable<ExportRule>)cExportRules;
+            List<ExportRule> list = new List<ExportRule>(obsCollection);
+
+            Stream stream = File.Open(filename, FileMode.Create);
+            BinaryFormatter bFormatter = new BinaryFormatter();
+            bFormatter.Serialize(stream, VERSION);
+            bFormatter.Serialize(stream, sOriginalFile);
+            bFormatter.Serialize(stream, list);
+            stream.Close();
+        }
+
+        public void importProject(string filename)
+        {
+            Stream stream = File.Open(filename, FileMode.Open);
+            BinaryFormatter bFormatter = new BinaryFormatter();
+            int version = (int)bFormatter.Deserialize(stream);
+            sOriginalFile = (string)bFormatter.Deserialize(stream);
+            List<ExportRule> list = (List<ExportRule>)bFormatter.Deserialize(stream);
+            stream.Close();
+            cExportRules.Clear();
+            foreach (ExportRule rule in list)
+            {
+                cExportRules.Add(rule);
+            }
+        }
+
+        public void execute()
+        {
+            Image original = Image.FromFile(this.sOriginalFile);
+            foreach (ExportRule rule in ExportRules)
+            {
+                Image export = resizeImage(original, rule.Dimension);
+                string path = rule.Path;
+                if (!Path.IsPathRooted(path))
+                {
+                    path = Path.Combine(Path.GetDirectoryName(this.OriginalFile), path);
+                }
+                if (!Directory.Exists(Path.GetDirectoryName(path)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                }
+                export.Save(path);
+            }
+        }
+
+        private static Image resizeImage(Image imgToResize, Size size)
+        {
+            int sourceWidth = imgToResize.Width;
+            int sourceHeight = imgToResize.Height;
+
+            //float nPercent = 0;
+            //float nPercentW = 0;
+            //float nPercentH = 0;
+            //nPercentW = ((float)size.Width / (float)sourceWidth);
+            //nPercentH = ((float)size.Height / (float)sourceHeight);
+
+            //if (nPercentH < nPercentW)
+            //{
+            //    nPercent = nPercentH;
+            //}
+            //else
+            //{
+            //    nPercent = nPercentW;
+            //}
+
+            //int destWidth = (int)Math.Ceiling(sourceWidth * nPercent);
+            //int destHeight = (int)Math.Ceiling(sourceHeight * nPercent);
+            Bitmap b = new Bitmap(size.Width, size.Height);
+            Graphics g = Graphics.FromImage((Image)b);
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+            g.DrawImage(imgToResize, 0, 0, size.Width, size.Height);
+            g.Dispose();
+
+            return (Image)b;
+        }
+
+    }
+}
