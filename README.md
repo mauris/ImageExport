@@ -7,3 +7,7 @@ ImageExport came into action when we needed to resize our high resolution applic
 - Enter export rules into ImageExport to resize one image into multiple sizes.
 - Export the rules into ImageExport Rule List (IRL file)
 - Import ImageExport Rule List (IRL file)
+
+#Screenshots
+
+![ImageExport](http://i.imgur.com/LshXK.png)
