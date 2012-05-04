@@ -83,7 +83,7 @@
                 <Button Name="btnAddExportRuleCancel" Margin="5" Content="_Cancel" Width="100" Padding="5" HorizontalAlignment="Left" Click="btnAddExportRuleCancel_Click"></Button>
             </StackPanel>
         </Grid>
-        <ListBox Name="lbxDisplay" Margin="5" ItemsSource="{Binding IsAsync=True}" Grid.Row="3" SelectionChanged="lbxDisplay_SelectionChanged" SelectionMode="Extended" DataContextChanged="lbxDisplay_DataContextChanged">
+        <ListBox Name="lbxDisplay" Margin="5" ItemsSource="{Binding IsAsync=True}" Grid.Row="3" SelectionChanged="lbxDisplay_SelectionChanged" SelectionMode="Extended">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="5">
