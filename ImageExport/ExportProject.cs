@@ -8,6 +8,8 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace ImageExport
 {
@@ -78,34 +80,15 @@ namespace ImageExport
 
         private static Image resizeImage(Image imgToResize, Size size)
         {
-            int sourceWidth = imgToResize.Width;
-            int sourceHeight = imgToResize.Height;
-
-            //float nPercent = 0;
-            //float nPercentW = 0;
-            //float nPercentH = 0;
-            //nPercentW = ((float)size.Width / (float)sourceWidth);
-            //nPercentH = ((float)size.Height / (float)sourceHeight);
-
-            //if (nPercentH < nPercentW)
-            //{
-            //    nPercent = nPercentH;
-            //}
-            //else
-            //{
-            //    nPercent = nPercentW;
-            //}
-
-            //int destWidth = (int)Math.Ceiling(sourceWidth * nPercent);
-            //int destHeight = (int)Math.Ceiling(sourceHeight * nPercent);
-            Bitmap b = new Bitmap(size.Width, size.Height);
-            Graphics g = Graphics.FromImage((Image)b);
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-            g.DrawImage(imgToResize, 0, 0, size.Width, size.Height);
-            g.Dispose();
-
-            return (Image)b;
+            Bitmap newImage = new Bitmap(size.Width, size.Height);
+            using (Graphics gr = Graphics.FromImage(newImage))
+            {
+                gr.SmoothingMode = SmoothingMode.AntiAlias;
+                gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                gr.DrawImage(imgToResize, new Rectangle(0, 0, size.Width, size.Height));
+            }
+            return (Image)newImage;            
         }
 
     }
